@@ -25,9 +25,9 @@ func (p MapParameters) Get(name string) (interface{}, error) {
 	parts := strings.Split(name, ".")
 	var value interface{}
 	current := p
-	for i, p := range parts {
+	for i, part := range parts {
 		var found bool
-		value, found = current[p]
+		value, found = current[part]
 
 		if !found {
 			errorMessage := "No parameter '" + name + "' found."
