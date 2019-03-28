@@ -7,6 +7,8 @@ package govaluate
 */
 import (
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestBasicEvaluation(test *testing.T) {
@@ -27,6 +29,19 @@ func TestBasicEvaluation(test *testing.T) {
 		test.Logf("Expected 'true', got '%v'\n", result)
 		test.Fail()
 	}
+}
+
+func TestArrayEvaluation(t *testing.T) {
+	expr, err := NewEvaluableExpression("items[0]")
+	require.NoError(t, err)
+	parameters := map[string]interface{}{
+		"items": []interface{}{
+			[]int{1, 2, 3},
+		},
+	}
+	result, err := expr.Evaluate(parameters)
+	require.NoError(t, err)
+	require.Equal(t, []int{1, 2, 3}, result)
 }
 
 func TestParameterEvaluation(test *testing.T) {

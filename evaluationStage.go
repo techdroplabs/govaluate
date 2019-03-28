@@ -6,6 +6,7 @@ import (
 	"math"
 	"reflect"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -214,10 +215,29 @@ func rightShiftStage(left interface{}, right interface{}, parameters Parameters)
 
 func makeParameterStage(parameterName string) evaluationOperator {
 
+	re, err := regexp.Compile(`(.*)\[(.*)]`)
+	if err != nil {
+		// this should never happen
+	}
 	return func(left interface{}, right interface{}, parameters Parameters) (interface{}, error) {
+		matches := re.FindStringSubmatch(parameterName)
+		if len(matches) == 3 {
+			parameterName = matches[1]
+		}
 		value, err := parameters.Get(parameterName)
 		if err != nil {
 			return nil, err
+		}
+		if len(matches) == 3 {
+			index, err := strconv.Atoi(matches[2])
+			if err != nil {
+				return nil, err
+			}
+			arr, ok := value.([]interface{})
+			if !ok {
+				return nil, fmt.Errorf("unable to create arr: %v", arr)
+			}
+			return arr[index], nil
 		}
 
 		return value, nil

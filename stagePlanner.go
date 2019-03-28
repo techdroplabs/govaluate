@@ -39,7 +39,7 @@ var stageSymbolMap = map[OperatorSymbol]evaluationOperator{
 }
 
 /*
-	A "precedent" is a function which will recursively parse new evaluateionStages from a given stream of tokens.
+	A "precedent" is a function which will recursively parse new evaluationStages from a given stream of tokens.
 	It's called a `precedent` because it is expected to handle exactly what precedence of operator,
 	and defer to other `precedent`s for other operators.
 */

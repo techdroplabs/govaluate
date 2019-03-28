@@ -431,7 +431,9 @@ func isVariableName(character rune) bool {
 	return unicode.IsLetter(character) ||
 		unicode.IsDigit(character) ||
 		character == '_' ||
-		character == '.'
+		character == '.' ||
+		character == '[' ||
+		character == ']'
 }
 
 func isNotClosingBracket(character rune) bool {
